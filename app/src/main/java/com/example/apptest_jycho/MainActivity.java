@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +26,24 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String text = editText.getText().toString();
                 textView.setText(text);
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(10 * 1000);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(MainActivity.this, "complete",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
             }
         });
 
@@ -33,14 +52,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, MyActivity.class);
-                startActivities(i);
+                startActivity(i);
             }
         });
+
+//        Button drawSampleBtn = findViewById(R.id.draw_sample_Btn);
+//        drawSampleBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent i = new Intent(MainActivity.this, DrawingActivity.class);
+//                startActivity(i);
+//            }
+//        });
     }
 
 
 
-};
+}
 
 
 
